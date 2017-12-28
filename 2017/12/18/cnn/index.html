@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="cnn,神经网络," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="什么是卷积？相信很多人在第一次听到卷积神经网络的时候，都会很费解卷积是个什么鬼？是把什么东西卷起来吗？当我第一次接触它的时候也是这种感觉，不知道高数老师会不会骂我：（所以为了弄清楚卷积神经网络在做什么，我们先要弄明白卷积 卷积的物理意义我们可以想象这么一个画面，你拿着一块石头丢入到一片湖面，当石头击中湖面的时候，湖水上就会激起一道涟漪，再拿一块石头丢进去，就又产生了一道涟漪，而这些涟漪的叠加就是卷">
+<meta name="keywords" content="cnn,神经网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cnn-卷积神经网络">
+<meta property="og:url" content="http://yoursite.com/2017/12/18/cnn/index.html">
+<meta property="og:site_name" content="life is struggle, make some trouble">
+<meta property="og:description" content="什么是卷积？相信很多人在第一次听到卷积神经网络的时候，都会很费解卷积是个什么鬼？是把什么东西卷起来吗？当我第一次接触它的时候也是这种感觉，不知道高数老师会不会骂我：（所以为了弄清楚卷积神经网络在做什么，我们先要弄明白卷积 卷积的物理意义我们可以想象这么一个画面，你拿着一块石头丢入到一片湖面，当石头击中湖面的时候，湖水上就会激起一道涟漪，再拿一块石头丢进去，就又产生了一道涟漪，而这些涟漪的叠加就是卷">
+<meta property="og:image" content="http://img.blog.csdn.net/20151012211045222?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20151012211129394?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://img.blog.csdn.net/20151012211158076?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:updated_time" content="2017-12-28T02:57:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="cnn-卷积神经网络">
+<meta name="twitter:description" content="什么是卷积？相信很多人在第一次听到卷积神经网络的时候，都会很费解卷积是个什么鬼？是把什么东西卷起来吗？当我第一次接触它的时候也是这种感觉，不知道高数老师会不会骂我：（所以为了弄清楚卷积神经网络在做什么，我们先要弄明白卷积 卷积的物理意义我们可以想象这么一个画面，你拿着一块石头丢入到一片湖面，当石头击中湖面的时候，湖水上就会激起一道涟漪，再拿一块石头丢进去，就又产生了一道涟漪，而这些涟漪的叠加就是卷">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20151012211045222?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/18/cnn/"/>
+
+
+
+
+
+  <title>cnn-卷积神经网络 | life is struggle, make some trouble</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">life is struggle, make some trouble</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/18/cnn/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Carl Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="life is struggle, make some trouble">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">cnn-卷积神经网络</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-18T14:50:05+08:00">
+                2017-12-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/machine-learning/" itemprop="url" rel="index">
+                    <span itemprop="name">machine learning</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="什么是卷积？"><a href="#什么是卷积？" class="headerlink" title="什么是卷积？"></a>什么是卷积？</h1><p>相信很多人在第一次听到卷积神经网络的时候，都会很费解卷积是个什么鬼？<br>是把什么东西卷起来吗？当我第一次接触它的时候也是这种感觉，不知道高数老师会不会骂我：（<br>所以为了弄清楚卷积神经网络在做什么，我们先要弄明白卷积</p>
+<h2 id="卷积的物理意义"><a href="#卷积的物理意义" class="headerlink" title="卷积的物理意义"></a>卷积的物理意义</h2><p>我们可以想象这么一个画面，你拿着一块石头丢入到一片湖面，当石头击中湖面的时候，<br>湖水上就会激起一道涟漪，再拿一块石头丢进去，就又产生了一道涟漪，而这些涟漪的叠加就是卷积了！<br>【放一张图片】</p>
+<h2 id="卷积的数学意义"><a href="#卷积的数学意义" class="headerlink" title="卷积的数学意义"></a>卷积的数学意义</h2><p>我们将上面丢石头到湖面的例子变成数学上表示，我们假设石头冲击湖面的冲击函数为f(n),<br>假设湖面的水波为函数g(t),那么第一块石头撞击水面我们可以表示为f(1)<em>g(t),是第一次的涟漪，<br>而第二块石头撞击水面我们可以表示为f(2)</em>g(t),是第二次涟漪，把他们两者加起来就是这两次撞击f(n)：n=1,2对g(t)的卷积，这个时候f(n)是一个离散的函数。<br>【平移的图片】<br>那当f(n)是一个连续的函数的时候我们要怎么理解呢？大家可以把它想象成自己对着水坑里尿尿，<br>尿撞击到水面上是一个连续的影响，这时候水面上的波动就是一个连续函数f(n)对g(t)的卷积。</p>
+<p>总结一下，通俗点说，卷积就是一个函数（先后顺序的石头）在另一个函数（水面）上的加权叠加。</p>
+<h2 id="卷积在图像处理上的意义"><a href="#卷积在图像处理上的意义" class="headerlink" title="卷积在图像处理上的意义"></a>卷积在图像处理上的意义</h2><p>喜欢自拍或者看过最近很火的白夜追凶的同学肯定都知道图像处理，有一段剧情是关队将照片送去鉴定中心做锐化处理，从而能从原本不清楚的照片中<br>将某一部分的影像变得更清晰（剧中是一把匕首和手表吧，我记得是~~~），这个锐化的处理就是卷积在图片处理上的一个例子。那锐化是怎么做到的呢？<br>我们都知道图片其实本质上就是一个点阵，如果是黑白图片的话，每个点的值就是0或者1，如果是RGB彩色图片的话，每个点就是一个三维数组，数组中的每个值都在0-255，<br>为了能够突出图像中的特征，就必须增强中心像素的影响，弱化周围的像素的影响，要做到这一点，就需要有一个东西，增加中心像素点的权重，降低周围像素点的权重再进行叠加产生一个新的值，<br>是不是很像上面讲的例子，图片点阵就是g(t)，这个东西就是f(n)，我们把这个东西叫做滤波器。<img src="http://img.blog.csdn.net/20151012211045222?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="滤波器图片"><br>锐化的滤波器：<img src="http://img.blog.csdn.net/20151012211129394?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="锐化滤波器"><br>我们可以很清楚看到，当前这个滤波器的周围像素点的权重都是-1，中心点为9，所以就产生了锐化的效果<br>那如果我们想要把轮廓变的更清晰呢：<img src="http://img.blog.csdn.net/20151012211158076?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="轮廓滤波器"><br>这个滤波器的权重就和上面锐化的完全相反。</p>
+<h1 id="为什么神经网络也要卷积？"><a href="#为什么神经网络也要卷积？" class="headerlink" title="为什么神经网络也要卷积？"></a>为什么神经网络也要卷积？</h1>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/cnn/" rel="tag"># cnn</a>
+          
+            <a href="/tags/神经网络/" rel="tag"># 神经网络</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/20/completableFuture/" rel="next" title="completableFuture">
+                <i class="fa fa-chevron-left"></i> completableFuture
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/18/B-Tree/" rel="prev" title="B-Tree 与数据库索引">
+                B-Tree 与数据库索引 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Carl Zhu" />
+          <p class="site-author-name" itemprop="name">Carl Zhu</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">categories</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">tags</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是卷积？"><span class="nav-number">1.</span> <span class="nav-text">什么是卷积？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#卷积的物理意义"><span class="nav-number">1.1.</span> <span class="nav-text">卷积的物理意义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卷积的数学意义"><span class="nav-number">1.2.</span> <span class="nav-text">卷积的数学意义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卷积在图像处理上的意义"><span class="nav-number">1.3.</span> <span class="nav-text">卷积在图像处理上的意义</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么神经网络也要卷积？"><span class="nav-number">2.</span> <span class="nav-text">为什么神经网络也要卷积？</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Carl Zhu</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
