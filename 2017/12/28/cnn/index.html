@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="jdk8," />
+  <meta name="keywords" content="cnn,神经网络," />
 
 
 
@@ -93,17 +93,21 @@
 
 
 
-<meta name="description" content="(CompletableFuture??)[http://www.jianshu.com/p/6f3ee90ab7d3]">
-<meta name="keywords" content="jdk8">
+<meta name="description" content="最近一直在看神经网络相关的知识，看了很多资料，加上自己的理解，打算把他们都记录下来，以供自己以后参考 什么是卷积？相信很多人在第一次听到卷积神经网络的时候，都会很费解卷积是个什么鬼？是把什么东西卷起来吗？当我第一次接触它的时候也是这种感觉，不知道高数老师会不会骂我：（所以为了弄清楚卷积神经网络在做什么，我们先要弄明白卷积 卷积的物理意义我们可以想象这么一个画面，你拿着一块石头丢入到一片湖面，当石头">
+<meta name="keywords" content="cnn,神经网络">
 <meta property="og:type" content="article">
-<meta property="og:title" content="completableFuture">
-<meta property="og:url" content="http://yoursite.com/2017/11/20/completableFuture/index.html">
+<meta property="og:title" content="cnn-卷积神经网络">
+<meta property="og:url" content="http://yoursite.com/2017/12/28/cnn/index.html">
 <meta property="og:site_name" content="life is struggle, make some trouble">
-<meta property="og:description" content="(CompletableFuture??)[http://www.jianshu.com/p/6f3ee90ab7d3]">
-<meta property="og:updated_time" content="2017-11-20T03:35:56.000Z">
+<meta property="og:description" content="最近一直在看神经网络相关的知识，看了很多资料，加上自己的理解，打算把他们都记录下来，以供自己以后参考 什么是卷积？相信很多人在第一次听到卷积神经网络的时候，都会很费解卷积是个什么鬼？是把什么东西卷起来吗？当我第一次接触它的时候也是这种感觉，不知道高数老师会不会骂我：（所以为了弄清楚卷积神经网络在做什么，我们先要弄明白卷积 卷积的物理意义我们可以想象这么一个画面，你拿着一块石头丢入到一片湖面，当石头">
+<meta property="og:image" content="http://yoursite.com/image/cnn/filter.png">
+<meta property="og:image" content="http://yoursite.com/image/cnn/sharp.png">
+<meta property="og:image" content="http://yoursite.com/image/cnn/lunkuo.png">
+<meta property="og:updated_time" content="2017-12-28T09:03:37.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="completableFuture">
-<meta name="twitter:description" content="(CompletableFuture??)[http://www.jianshu.com/p/6f3ee90ab7d3]">
+<meta name="twitter:title" content="cnn-卷积神经网络">
+<meta name="twitter:description" content="最近一直在看神经网络相关的知识，看了很多资料，加上自己的理解，打算把他们都记录下来，以供自己以后参考 什么是卷积？相信很多人在第一次听到卷积神经网络的时候，都会很费解卷积是个什么鬼？是把什么东西卷起来吗？当我第一次接触它的时候也是这种感觉，不知道高数老师会不会骂我：（所以为了弄清楚卷积神经网络在做什么，我们先要弄明白卷积 卷积的物理意义我们可以想象这么一个画面，你拿着一块石头丢入到一片湖面，当石头">
+<meta name="twitter:image" content="http://yoursite.com/image/cnn/filter.png">
 
 
 
@@ -131,13 +135,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/11/20/completableFuture/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/12/28/cnn/"/>
 
 
 
 
 
-  <title>completableFuture | life is struggle, make some trouble</title>
+  <title>cnn-卷积神经网络 | life is struggle, make some trouble</title>
   
 
 
@@ -256,7 +260,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/20/completableFuture/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/28/cnn/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Carl Zhu">
@@ -273,7 +277,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">completableFuture</h1>
+          <h1 class="post-title" itemprop="name headline">cnn-卷积神经网络</h1>
         
 
         <div class="post-meta">
@@ -285,8 +289,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-20T11:34:31+08:00">
-                2017-11-20
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-28T14:50:05+08:00">
+                2017-12-28
               </time>
             
 
@@ -308,8 +312,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/machine-learning/" itemprop="url" rel="index">
+                    <span itemprop="name">machine learning</span>
                   </a>
                 </span>
 
@@ -342,7 +346,13 @@
       
 
       
-        <p>(CompletableFuture??)[<a href="http://www.jianshu.com/p/6f3ee90ab7d3" target="_blank" rel="external">http://www.jianshu.com/p/6f3ee90ab7d3</a>]</p>
+        <p>最近一直在看神经网络相关的知识，看了很多资料，加上自己的理解，打算把他们都记录下来，以供自己以后参考</p>
+<h1 id="什么是卷积？"><a href="#什么是卷积？" class="headerlink" title="什么是卷积？"></a>什么是卷积？</h1><p>相信很多人在第一次听到卷积神经网络的时候，都会很费解卷积是个什么鬼？<br>是把什么东西卷起来吗？当我第一次接触它的时候也是这种感觉，不知道高数老师会不会骂我：（<br>所以为了弄清楚卷积神经网络在做什么，我们先要弄明白卷积</p>
+<h2 id="卷积的物理意义"><a href="#卷积的物理意义" class="headerlink" title="卷积的物理意义"></a>卷积的物理意义</h2><p>我们可以想象这么一个画面，你拿着一块石头丢入到一片湖面，当石头击中湖面的时候，<br>湖水上就会激起一道涟漪，再拿一块石头丢进去，就又产生了一道涟漪，而这些涟漪的叠加就是卷积了！<br>【放一张图片】</p>
+<h2 id="卷积的数学意义"><a href="#卷积的数学意义" class="headerlink" title="卷积的数学意义"></a>卷积的数学意义</h2><p>我们将上面丢石头到湖面的例子变成数学上表示，我们假设石头冲击湖面的冲击函数为f(n),<br>假设湖面的水波为函数g(t),那么第一块石头撞击水面我们可以表示为f(1)<em>g(t),是第一次的涟漪，<br>而第二块石头撞击水面我们可以表示为f(2)</em>g(t),是第二次涟漪，把他们两者加起来就是这两次撞击f(n)：n=1,2对g(t)的卷积，这个时候f(n)是一个离散的函数。<br>【平移的图片】<br>那当f(n)是一个连续的函数的时候我们要怎么理解呢？大家可以把它想象成自己对着水坑里尿尿，<br>尿撞击到水面上是一个连续的影响，这时候水面上的波动就是一个连续函数f(n)对g(t)的卷积。</p>
+<p>总结一下，通俗点说，卷积就是一个函数（先后顺序的石头）在另一个函数（水面）上的加权叠加。</p>
+<h2 id="卷积在图像处理上的意义"><a href="#卷积在图像处理上的意义" class="headerlink" title="卷积在图像处理上的意义"></a>卷积在图像处理上的意义</h2><p>喜欢自拍或者看过最近很火的白夜追凶的同学肯定都知道图像处理，有一段剧情是关队将照片送去鉴定中心做锐化处理，从而能从原本不清楚的照片中<br>将某一部分的影像变得更清晰（剧中是一把匕首和手表吧，我记得是~~~），这个锐化的处理就是卷积在图片处理上的一个例子。那锐化是怎么做到的呢？<br>我们都知道图片其实本质上就是一个点阵，如果是黑白图片的话，每个点的值就是0或者1，如果是RGB彩色图片的话，每个点就是一个三维数组，数组中的每个值都在0-255，<br>为了能够突出图像中的特征，就必须增强中心像素的影响，弱化周围的像素的影响，要做到这一点，就需要有一个东西，增加中心像素点的权重，降低周围像素点的权重再进行叠加产生一个新的值，<br>是不是很像上面讲的例子，图片点阵就是g(t)，这个东西就是f(n)，我们把这个东西叫做滤波器。<img src="/image/cnn/filter.png" alt="滤波器图片"><br>锐化的滤波器：<img src="/image/cnn/sharp.png" alt="锐化滤波器"><br>我们可以很清楚看到，当前这个滤波器的周围像素点的权重都是-1，中心点为9，所以就产生了锐化的效果<br>那如果我们想要把轮廓变的更清晰呢：<img src="/image/cnn/lunkuo.png" alt="轮廓滤波器"><br>这个滤波器的权重就和上面锐化的完全相反。</p>
+<h1 id="神经网络也要卷积？"><a href="#神经网络也要卷积？" class="headerlink" title="神经网络也要卷积？"></a>神经网络也要卷积？</h1><p>在图像识别的领域上，使用普通神经网络所能到达的精度已经接近极限，很难在提高了，所以受到卷积在图像处理上的启发，就产生了卷积神经网络。<br>通过上面的例子，不难发现，通过不同的滤波器，就能让同一张图像产生不同的效果。但是这些滤波器的参数，其实更多是根据人们的需求以及经验知识来设定的。<br>而对于图像识别来讲，我们并不知道什么样的滤波器对某一类图像对机器来说是有效的，所以卷积神经网络所要训练的就是这些卷积层的滤波器</p>
 
       
     </div>
@@ -372,7 +382,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/jdk8/" rel="tag"># jdk8</a>
+            <a href="/tags/cnn/" rel="tag"># cnn</a>
+          
+            <a href="/tags/神经网络/" rel="tag"># 神经网络</a>
           
         </div>
       
@@ -385,8 +397,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/10/09/recommend-algorithm/" rel="next" title="recommend-algorithm">
-                <i class="fa fa-chevron-left"></i> recommend-algorithm
+              <a href="/2017/12/18/java-io/" rel="next" title="java-io">
+                <i class="fa fa-chevron-left"></i> java-io
               </a>
             
           </div>
@@ -395,8 +407,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/12/18/B-Tree/" rel="prev" title="B-Tree 与数据库索引">
-                B-Tree 与数据库索引 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/01/12/ConcurrentHashMap/" rel="prev" title="ConcurrentHashMap原理 java7 vs java8">
+                ConcurrentHashMap原理 java7 vs java8 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -445,8 +457,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -508,6 +529,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是卷积？"><span class="nav-number">1.</span> <span class="nav-text">什么是卷积？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#卷积的物理意义"><span class="nav-number">1.1.</span> <span class="nav-text">卷积的物理意义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卷积的数学意义"><span class="nav-number">1.2.</span> <span class="nav-text">卷积的数学意义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卷积在图像处理上的意义"><span class="nav-number">1.3.</span> <span class="nav-text">卷积在图像处理上的意义</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#神经网络也要卷积？"><span class="nav-number">2.</span> <span class="nav-text">神经网络也要卷积？</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
