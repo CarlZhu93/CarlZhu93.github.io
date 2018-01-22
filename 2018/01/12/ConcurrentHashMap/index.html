@@ -96,8 +96,8 @@
 <meta name="description" content="JAVA7在java7中，ConcurrentHashMap中核心结构是一个Segment数组，每个Segment中都有一个HashEntry数组，也就是把一个HashMap分成了很多个HashMap，当对ConcurrentHashMap进行操作的时候，会通过Hash计算出要操作的segment，每一个segment都继承了ReentrantLock从而实现对segment进行加锁，保证线程安全">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ConcurrentHashMap原理 java7 vs java8">
-<meta property="og:url" content="http://yoursite.com/2018/01/12/ConcurrentHashMap/index.html">
-<meta property="og:site_name" content="life is struggle, make some trouble">
+<meta property="og:url" content="https://carlzhu93.github.io/2018/01/12/ConcurrentHashMap/index.html">
+<meta property="og:site_name" content="办公室扫地僧的日常生活">
 <meta property="og:description" content="JAVA7在java7中，ConcurrentHashMap中核心结构是一个Segment数组，每个Segment中都有一个HashEntry数组，也就是把一个HashMap分成了很多个HashMap，当对ConcurrentHashMap进行操作的时候，会通过Hash计算出要操作的segment，每一个segment都继承了ReentrantLock从而实现对segment进行加锁，保证线程安全">
 <meta property="og:updated_time" content="2018-01-14T14:08:38.000Z">
 <meta name="twitter:card" content="summary">
@@ -111,7 +111,7 @@
   var CONFIG = {
     root: '/',
     scheme: 'Muse',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -130,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/01/12/ConcurrentHashMap/"/>
+  <link rel="canonical" href="https://carlzhu93.github.io/2018/01/12/ConcurrentHashMap/"/>
 
 
 
 
 
-  <title>ConcurrentHashMap原理 java7 vs java8 | life is struggle, make some trouble</title>
+  <title>ConcurrentHashMap原理 java7 vs java8 | 办公室扫地僧的日常生活</title>
   
 
 
@@ -172,12 +172,12 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">life is struggle, make some trouble</span>
+        <span class="site-title">办公室扫地僧的日常生活</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
       
-        <p class="site-subtitle"></p>
+        <p class="site-subtitle">独孤九剑 vs 辟邪剑谱</p>
       
   </div>
 
@@ -255,16 +255,16 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/12/ConcurrentHashMap/">
+    <link itemprop="mainEntityOfPage" href="https://carlzhu93.github.io/2018/01/12/ConcurrentHashMap/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Carl Zhu">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/avatar.jpeg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="life is struggle, make some trouble">
+      <meta itemprop="name" content="办公室扫地僧的日常生活">
     </span>
 
     
@@ -452,7 +452,7 @@
       <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
+               src="/images/avatar.jpeg"
                alt="Carl Zhu" />
           <p class="site-author-name" itemprop="name">Carl Zhu</p>
            
@@ -486,7 +486,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">tags</span>
               
             </div>
