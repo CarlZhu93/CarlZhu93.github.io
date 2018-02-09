@@ -253,6 +253,254 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://carlzhu93.github.io/2018/02/09/eureka/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Carl Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="办公室扫地僧的日常生活">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/09/eureka/" itemprop="url">Eureka</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-09T17:03:13+08:00">
+                2018-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="总结一下-eureka-和-zookeeper"><a href="#总结一下-eureka-和-zookeeper" class="headerlink" title="总结一下 eureka 和 zookeeper"></a>总结一下 eureka 和 zookeeper</h1><p>zk的目标是一个分布式的协调系统，用于进行资源的统一管理，为了满足CP而进行设计。<br>eureka的目标是一个服务注册发现系统，专门用于微服务的服务发现注册，按照满足AP而进行设计。</p>
+<h1 id="zk在用于服务发现的问题"><a href="#zk在用于服务发现的问题" class="headerlink" title="zk在用于服务发现的问题"></a>zk在用于服务发现的问题</h1><p>zk将数据一致性作为自己设计的首要目标，从而不保证服务的可用性，因为当节点crash后，需要<br>进行leader的选举，在这个期间内，zk服务是不可用的。<br>对于服务的注册发现来说，对数据一致性并没有很大的需求，因为就算获取到不可用的服务，也会返回相应的<br>错误response，但是如果从注册中心中获取不到服务，就会是一个很大的问题。zk的leader选举时间有非常长，<br>所以用于服务发现，不是一个很好选择</p>
+<h1 id="eureka的思考"><a href="#eureka的思考" class="headerlink" title="eureka的思考"></a>eureka的思考</h1><p>eureka是按照AP的设计目标去实现的，当节点宕机后，并不会影响服务的获取和注册，client会从别的节点中获取服务信息，<br>同时当eureka的服务端发现85%以上的服务都没有心跳的话，它就会认为自己的网络出了问题，就不会从服务列表中删除这些<br>失去心跳的服务，同时eureka的客户端也会缓存服务信息。eureka对于服务注册发现来说是非常好的选择。</p>
+<p>提一个小疑问，我自己在搭eureka集群的时候，发现每一个eureka实例都要配置其他实例的地址，这样的话，如果加一台机器，<br>已经启动的机器要怎么发现这台新的节点，好像节点之前没有转播功能，不知道是不是我配置的不对。先记下来，解决了再更新。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://carlzhu93.github.io/2018/01/31/entropy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Carl Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="办公室扫地僧的日常生活">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/31/entropy/" itemprop="url">Entropy-熵？</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-31T16:27:01+08:00">
+                2018-01-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://carlzhu93.github.io/2018/01/12/ConcurrentHashMap/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -484,8 +732,9 @@
           
             <p>最近一直在看神经网络相关的知识，看了很多资料，加上自己的理解，打算把他们都记录下来，以供自己以后参考</p>
 <h1 id="什么是卷积？"><a href="#什么是卷积？" class="headerlink" title="什么是卷积？"></a>什么是卷积？</h1><p>相信很多人在第一次听到卷积神经网络的时候，都会很费解卷积是个什么鬼？<br>是把什么东西卷起来吗？当我第一次接触它的时候也是这种感觉，不知道高数老师会不会骂我：（<br>所以为了弄清楚卷积神经网络在做什么，我们先要弄明白卷积</p>
-<h2 id="卷积的物理意义"><a href="#卷积的物理意义" class="headerlink" title="卷积的物理意义"></a>卷积的物理意义</h2><p>我们可以想象这么一个画面，你拿着一块石头丢入到一片湖面，当石头击中湖面的时候，<br>湖水上就会激起一道涟漪，再拿一块石头丢进去，就又产生了一道涟漪，而这些涟漪的叠加就是卷积了！<br>【放一张图片】</p>
-<h2 id="卷积的数学意义"><a href="#卷积的数学意义" class="headerlink" title="卷积的数学意义"></a>卷积的数学意义</h2><p>我们将上面丢石头到湖面的例子变成数学上表示，我们假设石头冲击湖面的冲击函数为f(n),<br>假设湖面的水波为函数g(t),那么第一块石头撞击水面我们可以表示为f(1)<em>g(t),是第一次的涟漪，<br>而第二块石头撞击水面我们可以表示为f(2)</em>g(t),是第二次涟漪，把他们两者加起来就是这两次撞击f(n)：n=1,2对g(t)的卷积，这个时候f(n)是一个离散的函数。<br>【平移的图片】<br>那当f(n)是一个连续的函数的时候我们要怎么理解呢？大家可以把它想象成自己对着水坑里尿尿，<br>尿撞击到水面上是一个连续的影响，这时候水面上的波动就是一个连续函数f(n)对g(t)的卷积。</p>
+<h2 id="卷积的物理意义"><a href="#卷积的物理意义" class="headerlink" title="卷积的物理意义"></a>卷积的物理意义</h2><p>我们可以想象这么一个画面，你拿着一块石头丢入到一片湖面，当石头击中湖面的时候，<br>湖水上就会激起一道涟漪，再拿一块石头丢进去，就又产生了一道涟漪，而这些涟漪的叠加就是卷积了！</p>
+<h2 id="卷积的数学意义"><a href="#卷积的数学意义" class="headerlink" title="卷积的数学意义"></a>卷积的数学意义</h2><p>我们将上面丢石头到湖面的例子变成数学上表示，我们假设石头冲击湖面的冲击函数为f(n),<br>假设湖面的水波为函数g(t),那么第一块石头撞击水面我们可以表示为f(1)<em>g(t),是第一次的涟漪，<br>而第二块石头撞击水面我们可以表示为f(2)</em>g(t),是第二次涟漪，把他们两者加起来就是这两次撞击f(n)：n=1,2对g(t)的卷积，这个时候f(n)是一个离散的函数。</p>
+<p>那当f(n)是一个连续的函数的时候我们要怎么理解呢？大家可以把它想象成自己对着水坑里尿尿，<br>尿撞击到水面上是一个连续的影响，这时候水面上的波动就是一个连续函数f(n)对g(t)的卷积。</p>
 <p>总结一下，通俗点说，卷积就是一个函数（先后顺序的石头）在另一个函数（水面）上的加权叠加。</p>
 <h2 id="卷积在图像处理上的意义"><a href="#卷积在图像处理上的意义" class="headerlink" title="卷积在图像处理上的意义"></a>卷积在图像处理上的意义</h2><p>喜欢自拍或者看过最近很火的白夜追凶的同学肯定都知道图像处理，有一段剧情是关队将照片送去鉴定中心做锐化处理，从而能从原本不清楚的照片中<br>将某一部分的影像变得更清晰（剧中是一把匕首和手表吧，我记得是~~~），这个锐化的处理就是卷积在图片处理上的一个例子。那锐化是怎么做到的呢？<br>我们都知道图片其实本质上就是一个点阵，如果是黑白图片的话，每个点的值就是0或者1，如果是RGB彩色图片的话，每个点就是一个三维数组，数组中的每个值都在0-255，<br>为了能够突出图像中的特征，就必须增强中心像素的影响，弱化周围的像素的影响，要做到这一点，就需要有一个东西，增加中心像素点的权重，降低周围像素点的权重再进行叠加产生一个新的值，<br>是不是很像上面讲的例子，图片点阵就是g(t)，这个东西就是f(n)，我们把这个东西叫做滤波器。<img src="/image/cnn/filter.png" alt="滤波器图片"><br>锐化的滤波器：<img src="/image/cnn/sharp.png" alt="锐化滤波器"><br>我们可以很清楚看到，当前这个滤波器的周围像素点的权重都是-1，中心点为9，所以就产生了锐化的效果<br>那如果我们想要把轮廓变的更清晰呢：<img src="/image/cnn/lunkuo.png" alt="轮廓滤波器"><br>这个滤波器的权重就和上面锐化的完全相反。</p>
 <h1 id="神经网络也要卷积？"><a href="#神经网络也要卷积？" class="headerlink" title="神经网络也要卷积？"></a>神经网络也要卷积？</h1><p>在图像识别的领域上，使用普通神经网络所能到达的精度已经接近极限，很难在提高了，所以受到卷积在图像处理上的启发，就产生了卷积神经网络。<br>通过上面的例子，不难发现，通过不同的滤波器，就能让同一张图像产生不同的效果。但是这些滤波器的参数，其实更多是根据人们的需求以及经验知识来设定的。<br>而对于图像识别来讲，我们并不知道什么样的滤波器对某一类图像对机器来说是有效的，所以卷积神经网络所要训练的就是这些卷积层的滤波器</p>
@@ -688,7 +937,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/18/B-Tree/" itemprop="url">B-Tree 与数据库索引</a></h1>
+                <a class="post-title-link" href="/2017/12/18/B-Tree/" itemprop="url">B-Tree 与mysql索引</a></h1>
         
 
         <div class="post-meta">
@@ -1314,274 +1563,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://carlzhu93.github.io/2017/07/05/Python-yield原理/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Carl Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="办公室扫地僧的日常生活">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/07/05/Python-yield原理/" itemprop="url">Python-yield原理</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-05T13:43:02+08:00">
-                2017-07-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>yield关键字 实际上是生成了一个迭代器，如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">shushu</span><span class="params">(n)</span>:</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</div><div class="line">        <span class="keyword">print</span> i</div><div class="line">        <span class="keyword">yield</span> i</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    ss = shushu(<span class="number">10</span>)</div><div class="line">    ss.next()</div></pre></td></tr></table></figure></p>
-<p>方法 shushu被封装成了一个generator，<br>调用next方法，程序会走到yield i的位置并且把i的值返回，<br>当下一次调用next方法是，程序又会执行到这个位置，直到循环结束。<br>在两次next调用中 去执行其他的代码的过程，其实就是在进行任务切换，也就实现了协程的效果</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://carlzhu93.github.io/2017/06/02/API-Gateway-kong/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Carl Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="办公室扫地僧的日常生活">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/02/API-Gateway-kong/" itemprop="url">API Gateway - kong</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-02T17:10:35+08:00">
-                2017-06-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nginx/" itemprop="url" rel="index">
-                    <span itemprop="name">nginx</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1643,7 +1624,7 @@
             
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">categories</span>
               
             </div>
@@ -1654,7 +1635,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">tags</span>
               
             </div>
