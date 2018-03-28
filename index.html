@@ -253,6 +253,127 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://carlzhu93.github.io/2018/03/27/kafka/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Carl Zhu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="办公室扫地僧的日常生活">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/27/kafka/" itemprop="url">kafka相关问题总结</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-27T15:19:14+08:00">
+                2018-03-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>一直在使用kafka，遇到过很多问题，总结一下</p>
+<h1 id="数据丢失？？？"><a href="#数据丢失？？？" class="headerlink" title="数据丢失？？？"></a>数据丢失？？？</h1><p>很多人对比kafka和AMQP的时候，都会强调kafka会丢数据，感觉好像只要用kafka就会丢数据一样，从而排斥使用kafka，亦或者在使用的过程中，发现数据丢失就认定罪魁祸首是kafka，好像丢数据就是使用kafka的代价。悄悄的鄙视一下这些伪程序猿。</p>
+<p>kafka是一个强调高性能、高吞吐量的分布式消息中间件，在CAP中强调CP，当失去Broker Controller，选举新的Controller前服务处于不可用的状态，毕竟作为消息中间件对数据一致性还是有很高的要求。</p>
+<p>大致解释一下kafka集群，kafka server一般叫broker，在集群里，各个broker通过zookeeper抢占broker controller，Controller的职责是管理所有的Partition和Replica的分布以及ISR列表并通知其他broker，如果controller宕机，其他broker又通过zk抢占Controller，在Controller选举的过程中，服务处于不可用的状态。</p>
+<p>partition leader和partition replica：新建过topic的同学肯定知道，在新建topic的时候，我们一般会指定两个变量partition和replica，其实每个topic都是由多个partition组成的，一般情况下，partition的数量等于broker的数量，生产端产生数据存储在这些partition中。如果每个partition都没有备份，一旦服务器宕机，其中的数据都无法消费了，所以需要若干partition replica去备份这些partition, 而这些被备份的partition就称之为partition leader。这里再解释一下leader和replica切换的问题，leader与replica的数据copy肯定会有延迟的问题，不可能保证每时每刻replica的数据都与leader一致，所以就引入了一个ISR列表去维护哪些replica的数据是完整的，是值得信赖的，当replica中的数据与leader中的数据的延迟量超过一定的数值（可以自己设定的）或者卡住多少时间不返回的时候，这个replica就会被移除ISR列表，意味着此时如果leader宕机，当前这个replica是没有机会成为leader的，除非ISR列表里没有可用的replica。当这个replica的延迟或者返回时间恢复正常后，又会动态的把这个replica加入到ISR列表，总之ISR列表是动态的。</p>
+<p>消息写入kafka的过程：producer会通过所连接的broker获取到当前kafka集群的状态例如broker地址、partition的分配等，producer通过消息中的key或者round robin选择要写入的partition, producer只会将消息写入partition leader, 再由leader分发给所有的replica。在这个过程中，producer可以指定消息写入的ack模型，acks=0时，意味着不在乎消息是否已经写入partition leader,只要发送了就好；acks=1，消息写入leader需要返回ack才算成功；acks=-1或者all，消息写入leader后且所有replica也都写入并返回leader ack后才算成功。producer发送消息的确认模式选择就可能导致数据丢失，例如：当acks=1时，数据成功写入partition leader，producer会认为消息投递成功啦，突然partition leader在通知replica备份之前挂了，这条数据就沉入大海了，即使这个leader在一段时间后恢复，其他的replica可能早就已经取代它，成为新的leader了。</p>
+<p>消息持久化broker时也可能发生丢失，在未写入硬盘前，机器挂掉也可能丢失数据，这种情况就认命吧，或者让acks更严格，消息未确认写入成功时能够继续重试。</p>
+<p>最后就是消费的时候也可能发生丢失，kafka的消费模式和传统的AMQP是完全不同的，传统AMQP通过broker推送从而由broker控制消息的消费，消费端处理消息后需要通知broker消费状态（例如rabbitmq的ack，nack）如果失败broker会重新将消息推给其他消费端；kafka则是通过pull的方式，由消费端从broker上拉取消息，而拉取哪些消息由消费端自己控制（存在zk也是自己控制）,这就导致如果消费失败，且消费端没有做好相应处理，offset+1后，这条消息也就丢失了，所以对不允许数据丢失的业务，可以通过代码管理offset。</p>
+<h1 id="消费消息没有顺序？？？"><a href="#消费消息没有顺序？？？" class="headerlink" title="消费消息没有顺序？？？"></a>消费消息没有顺序？？？</h1><p>kafka的消费端有两个概念consumer group和consumer, consumer group由多个consumer组成，partition只能被在同一个consumer group中的一个consumer消费，但是可以被多个不同consumer group的consumer同时消费，如果consumer group中只有一个consumer，那么这个consumer可以消费所有的partition，所以一般来说有多少partition就初始化多少consumer，这样消费效率最高。</p>
+<p>既然kafka允许多个consumer对多个partition同时消费且producer投递的消息也落于不同的partition中，那么在这种情况下，消费这些消息的顺序肯定是不可控的。但是要知道kafka的partition是只能被一个consumer（同一group下）消费的，那么只要让消息全部都落入同一个partition不就好了，我们投递消息的过程中通过设定消息的key就能让kafka producer根据key进行hash选择要写入的partition,就能保证消息写入的顺序以及消费的顺序。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://carlzhu93.github.io/2018/02/27/fiji/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1466,140 +1587,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://carlzhu93.github.io/2017/08/28/Docker-qcow2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Carl Zhu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="办公室扫地僧的日常生活">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/28/Docker-qcow2/" itemprop="url">Docker.qcow2 osx 删除</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-28T16:14:12+08:00">
-                2017-08-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Docker/" itemprop="url" rel="index">
-                    <span itemprop="name">Docker</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>docker rm $(docker ps -a -q)<br>docker rmi $(docker images -q)<br>docker volume rm $(docker volume ls |awk ‘{print $2}’)<br>rm -rf ~/Library/Containers/com.docker.docker/Data/*</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1650,7 +1637,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -1672,7 +1659,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">tags</span>
               
             </div>
